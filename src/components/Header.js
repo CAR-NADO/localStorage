@@ -88,7 +88,7 @@ const Header = () => {
       <header className="App-header">
         <div className="registration_form">
           <div className="form_header">
-            <h3>Registration Form:</h3>
+            <h3>[Registration Form:]</h3>
           </div>
           <div className="form_name">
             <h5>Full Name:</h5>
