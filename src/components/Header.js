@@ -1,13 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from "react-router-dom";
 import './Header.css';
-import axios from 'axios';
 const Header = () => {
   const [userList, setUserList] = useState([]);
-  // let arr = [];
-  console.log("array",arr);
-  // const [renderData, setRenderData] = useState(false)
-
+  // console.log(userList.length);
+  let arr = JSON.parse(localStorage.getItem('users')) || [] ;
   const [error, setError] = useState("");
   const [errorE, setErrorE] = useState("");
   const [errorN, setErrorN] = useState("");
@@ -28,18 +25,16 @@ const Header = () => {
   }
 
   useEffect(()=> {
-      setUserList(JSON.parse(localStorage.getItem("user")))
+      setUserList(JSON.parse(localStorage.getItem("users")))
     // JSON.parse --> will convert json to object
     // JSON.stringfy --> will convert object to json
   },[])
 
-  // const [record, setRecord] = useState([]);
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     //validation call
     if (username.length === 0) {
-      // console.log("Please enter the username");
       setError("Please enter the username")
     }
     else if (username.length <= 3 || username.length >= 16) {
@@ -49,38 +44,37 @@ const Header = () => {
     else if (email.length === 0) {
       setError("")
       setErrorE("Please enter your email")
-      // console.log("Please enter the Email");
     }
     else if (number.length === 0) {
       setErrorE("")
 
       setErrorN("Please enter your mobile number")
-      // console.log("Please enter the Number");
     }
     else if (number.length != 10) {
       setErrorN("")
       setErrorN("Number should be 10 digit")
-      // console.log("Number should be in 10 digit");
     }
     else if (password.length === 0) {
       setErrorN("")
       setErrorP("Please enter the password")
-      // console.log("Please enter the Password");
     }
     else if (password.length <= 4 || password.length >= 12) {
       setErrorP("")
       setErrorP("Password should be 4 to 12 characters")
-      // console.log("Password should be 4 to 12 characters");
     }
     else {
       setErrorP("")
       // console.log("data storage in localStorage", userRegistration);
       // Data store in Local Storage
+      // arr.push(userRegistration, userRegistration.id = 1)
       arr.push(userRegistration)
-      console.log("local storage setItem",localStorage.setItem("user", JSON.stringify(arr)));
+      // console.log("array",arr);
+      // console.log("local storage setItem",localStorage.setItem("users", JSON.stringify(arr)));
+      localStorage.setItem("users", JSON.stringify(arr));
     }
   }
-  const handleDelete = async (id) => {
+  const handleDelete = (id) => {
+
   };
   // console.log("userList", userList);
   return (
@@ -144,7 +138,8 @@ const Header = () => {
           </div>
         </div>
         <div className="right_container">
-          {
+          { 
+            userList &&
             userList.map((data, i) => {
               // console.log("data",data);
             
@@ -154,7 +149,7 @@ const Header = () => {
                 <div className="card" key={i} >
                   <div className="data">
                     <div className="id_data">
-                      <h3 id='h3'>ID:</h3> <h5 id='h02'>{id}</h5>
+                      <h3 id='h3'>ID:</h3> <h5 id='h02'>{i}</h5>
                     </div>
                     <div className="name_data">
                       <h3 id='h3'>Username:</h3> <h5 id='h01'>{username}</h5>
